@@ -116,6 +116,10 @@ menu:
       name: Blog
       url: /posts/
       weight: 10
+    - identifier: css
+      name: CSS
+      url: /css/
+      weight: 30
   categories:
     - identifier: prose
       name: Prose
