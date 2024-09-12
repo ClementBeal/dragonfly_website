@@ -114,7 +114,7 @@ menu:
   main:
     - identifier: blog
       name: Blog
-      url: /blog/
+      url: /posts/
       weight: 10
   categories:
     - identifier: prose
