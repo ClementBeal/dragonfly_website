@@ -50,7 +50,7 @@
                 <div class="px-4 text-gray-900 dark:text-white not-prose dark:text-zinc-200">
                     <div class="grid gap-4 mx-auto mt-12 mb-4 lg:max-w-none md:grid-cols-3">
                         {{ $pages := where .Site.RegularPages "Section" "posts" }}
-                        {{ $pages = $pages.ByTitle }}
+                        {{ $pages = $pages.ByDate.Reverse  }}
 
 
                         {{ range (.Paginate $pages 3).Pages }}

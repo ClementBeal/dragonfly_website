@@ -1,57 +1,54 @@
 ---
 author: Clement
-title: "Main concept of a web engine"
-description: '"'
+title: "Main Concept of a Web Engine"
+description: ""
 date: 2024-09-12T13:59:58-03:00
 ---
 
-# Main concept of a web engine
+# Main Concept of a Web Engine
 
-When I started this project, I have been searching for information on Google explaining how works a browser. Quickly, I have notices that there is almost no source with correct explainations.They all provide very basic information. It's why I want to give you my current knowledges to help you if you want to build a web engine from scratch as well.
+When I started this project, I searched for information on Google explaining how a browser works. Quickly, I noticed that there are almost no sources with correct explanations. They all provide very basic information. That's why I want to share my current knowledge to help you if you want to build a web engine from scratch as well.
 
-As you know, the first thing that a browser does is downloading an HTML file. It contains two importants tags : `<head>` and `body`. The `<head>` element contains the metadata of the page like the title, the description, the language and so on. It's this element that contains the URLs to the CSS and JS files. The `<body>` provides the content of the page. The browser will only render the body althought it's not completely true because `<head>` has the `display: none` style so you could render the metadata if you want to.
+As you know, the first thing that a browser does is download an HTML file. It contains two important tags: `<head>` and `<body>`. The `<head>` element contains the metadata of the page, like the title, description, language, and so on. It's this element that contains the URLs to the CSS and JS files. The `<body>` provides the content of the page. The browser will only render the body, although it's not completely true because the `<head>` has the `display: none` style, so you could render the metadata if you wanted to.
 
-That's nice. The browser has an HTML but how does it know how to render it in the viewport? That's the complex parts of the process.
+That's nice. The browser has the HTML, but how does it know how to render it in the viewport? That's the complex part of the process.
 
 ## The DOM
 
-First, it parses the HTML and builds the DOM. The DOM (Document Object Model) is a data structure that ables the browser to easily manipulates the HTML. It's very useful because it makes an HTML page "dynamic". There's Javascript API that manipulates the DOM. It can remove or add elements to the DOM. I forget to say that the DOM is a tree because by nature, the HTML has a hierarchy between the elements.
+First, it parses the HTML and builds the DOM. The DOM (Document Object Model) is a data structure that enables the browser to easily manipulate the HTML. It's very useful because it makes an HTML page "dynamic." There's a JavaScript API that manipulates the DOM; it can remove or add elements to the DOM. I forgot to mention that the DOM is a tree because, by nature, HTML has a hierarchy between elements.
 
-The HTML parser is not a simple `.xml` parser. It's way more complex. Let's take this case. The browser download an HTML that is not correctly formatted. Some tags are not closed. In this case, the parser will raise an error and the user will have a blank or an erro page. As you can see, it's a very poor user experience... That's why the HTML parser are smart and can decide to apply some changes if the HTML is bad. You could try to open an HTML file with the following code `<p>I don't close it` and it will stil work.
+The HTML parser is not a simple `.xml` parser; it's much more complex. Let's take this case: The browser downloads an HTML file that is not correctly formatted, and some tags are not closed. In this case, if the parser raised an error, the user would see a blank or error page. As you can see, that would be a very poor user experience. That's why HTML parsers are smart and can decide to apply some changes if the HTML is bad. For example, you could open an HTML file with the following code `<p>I don't close it` and it would still work.
 
-Now the parser can build the DOM. For each html element, a tree node will be created. Of course, the children of an element will be children of its node too. The nodes will contains all the information that provides the html : the tag, the classes, the id, the attributes etc...
-
+Now the parser can build the DOM. For each HTML element, a tree node will be created. Of course, the children of an element will be the children of its node too. The nodes will contain all the information provided by the HTML: the tag, classes, id, attributes, etc.
 
 ## The CSSOM
 
-The CSSOM (CSS Object Document) is the brother of the DOM. It's exactly the same thing but with the CSS. The stylesheet is made of a bunch of rules. Each rule is the child of the root. We also use a tree because there's a hierarchy inside the rules. We notice it when we use selectors (`div > p`). It's also useful when the CSS changes dynamically, something that a website does a lot.
+The CSSOM (CSS Object Model) is the sibling of the DOM. It's exactly the same thing but for the CSS. The stylesheet is made up of a bunch of rules. Each rule is a child of the root. We also use a tree because there's a hierarchy within the rules, which we notice when using selectors (`div > p`). It's also useful when the CSS changes dynamically, something that websites do frequently.
 
-## The render tree
+## The Render Tree
 
-We can't render a page with only the DOM and the CSSOM. The browser has to apply the correct styles to each DOM nodes and that's not an easy thing because of all the CSS rules that can be defined and the selectors. That's why a browser must run this very important step.
+We can't render a page with only the DOM and the CSSOM. The browser has to apply the correct styles to each DOM node, which is not an easy task due to all the CSS rules and selectors that can be defined. That's why a browser must run this very important step.
 
-The render tree is an abstraction of the DOM and the CSSOM. A `<p>` or an `input` are rendered differently, the same with `<h1`>.  The browser define some special render nodes that contains information about how to render the DOM/CSSOM. For instance, we could have :
+The render tree is an abstraction of the DOM and the CSSOM. A `<p>` or an `input` are rendered differently, and the same goes for `<h1>`. The browser defines special render nodes that contain information about how to render the DOM/CSSOM. For instance, we could have:
 
-- `RenderText` : renders a text. It could be used to render `<h1>`, `<p>`, `<span>` etc... The node will also contains the font size, the color, the letter spacing and other properties.
-- `RenderImage` : renders an image. To render an image, it will need to decode `png`, `jpeg`, `webp` etc... The will will have an image URL, the image's dimensions, if it should fit the height or the width...
-- `RenderTextInput` : renders a text input. The user can enter data and the field can have validation.
+- `RenderText`: Renders text. It could be used to render `<h1>`, `<p>`, `<span>`, etc. The node will also contain the font size, color, letter spacing, and other properties.
+- `RenderImage`: Renders an image. To render an image, it will need to decode formats like `png`, `jpeg`, `webp`, etc. The node will have an image URL, the image's dimensions, and details on whether it should fit the height or width.
+- `RenderTextInput`: Renders a text input. The user can enter data, and the field can have validation.
 
-The nodes depends of the implementer but it mainly depends of the `display` property and if the node has very special rendering. We will have custom render nodes for pictures, videos, audios, forms, tables and the same if the display is `grid`, `flex` or `none`.
+The nodes depend on the implementer, but they mainly depend on the `display` property and if the node has a special rendering. We will have custom render nodes for pictures, videos, audios, forms, tables, and similar cases if the display is `grid`, `flex`, or `none`.
 
-It's a very important step because we will compute the units. Most of the font sizes use the `em` unit. It's a unit using the parent's font size and applies a factor. It's important to do the style cascading (use the parent's values) and some other stuff like media queries, variables and more,
+This is a very important step because we compute the units. Most font sizes use the `em` unit, which is based on the parent's font size and applies a factor. It's also important to handle style cascading (using the parent's values), media queries, variables, and more.
 
-## The layout
+## The Layout
 
-During this step, the engine computes the position and dimension of every render nodes. It will use the margin and the padding, the width and height. Also if the node is a flex box (`display: flex`), it will put the children to the good position.
+During this step, the engine computes the position and dimensions of every render node. It will use the margin, padding, width, and height. If the node is a flexbox (`display: flex`), it will position the children correctly.
 
-It's also here that we will have differents layers. As you know, we have the `z-index` property that we can use to have elements all over each other.
+This step also determines the different layers. As you know, we have the `z-index` property that allows elements to be layered over one another.
 
-The following video is a visualization of this step. It was made 15 years ago with the Geko engine, the former web engine of Mozilla Firefox.
+The following video is a visualization of this step. It was made 15 years ago with the Gecko engine, the former web engine of Mozilla Firefox.
 
 {{< youtube ZTnIxIA5KGw >}}
 
-## The rendering
+## The Rendering
 
-It's simply render the layout into the screen. During this step, the engine will draw the render tree to the position and dimension computed by the layout. It will draw lines, circles and more.
-
-
+This step simply renders the layout onto the screen. During this step, the engine will draw the render tree to the position and dimensions computed by the layout. It will draw lines, circles, and more.
