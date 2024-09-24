@@ -5,8 +5,6 @@ description: ""
 date: 2024-09-12T13:59:58-03:00
 ---
 
-# Main Concept of a Web Engine
-
 When I started this project, I searched for information on Google explaining how a browser works. Quickly, I noticed that there are almost no sources with correct explanations. They all provide very basic information. That's why I want to share my current knowledge to help you if you want to build a web engine from scratch as well.
 
 As you know, the first thing that a browser does is download an HTML file. It contains two important tags: `<head>` and `<body>`. The `<head>` element contains the metadata of the page, like the title, description, language, and so on. It's this element that contains the URLs to the CSS and JS files. The `<body>` provides the content of the page. The browser will only render the body, although it's not completely true because the `<head>` has the `display: none` style, so you could render the metadata if you wanted to.

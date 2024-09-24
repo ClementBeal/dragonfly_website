@@ -1,10 +1,9 @@
 ---
 author: Clement
 title: "Why choose Flutter?"
+description: ""
 date: 2024-09-12T20:47:12-03:00
 ---
-
-# Why choose Flutter?
 
 You might ask, "Why use Flutter to write a web browser?" and it would be a legitimate question. There are a lot of discussions about Flutter on the internet. Some people say it is the best solution to quickly build mobile apps, while others believe that Google will kill it soon.
 
